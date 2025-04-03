@@ -19,7 +19,7 @@ const TodoList: React.FC = () => {
   const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
   const todosRef = useRef(todos);
-  const [todoToDelete, setTodoToDelete] = useState<number>();
+  const [targetTodoId, setTargetTodoId] = useState<number>();
 
   useEffect(() => {
     setLoading(true);
@@ -32,20 +32,27 @@ const TodoList: React.FC = () => {
   }, [todos]);
 
   const handleUpdateTodo = (updatedTodo: Todo) => {
+    const nameCollision = todos.find(
+      (todo) => todo.name === updatedTodo.name && todo.id !== updatedTodo.id,
+    );
+
+    if (nameCollision) return "Name must be unique";
+
     updateTodo(updatedTodo);
+    return null;
   };
 
   const onDeleteTodoAttempt = (id: number) => {
-    setTodoToDelete(id)
+    setTargetTodoId(id);
   };
 
   const onCancelTodoDelete = () => {
-    setTodoToDelete(0)
-  }
+    setTargetTodoId(0);
+  };
 
   const handleDeleteTodo = () => {
-    deleteTodo(todoToDelete!);
-    setTodoToDelete(0)
+    deleteTodo(targetTodoId!);
+    setTargetTodoId(0);
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -88,36 +95,36 @@ const TodoList: React.FC = () => {
                 >
                   {loading
                     ? Array.from({ length: 3 }).map((_, index) => (
-                      <li
-                        key={`skeleton-${index}`}
-                        className={index > 0 ? "mt-4" : ""}
-                      >
-                        <TodoItemSkeleton />
-                      </li>
-                    ))
+                        <li
+                          key={`skeleton-${index}`}
+                          className={index > 0 ? "mt-4" : ""}
+                        >
+                          <TodoItemSkeleton />
+                        </li>
+                      ))
                     : incompleteTodos.map((todo, index) => (
-                      <Draggable
-                        key={todo.id.toString()}
-                        draggableId={todo.id.toString()}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <li
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            role="listitem"
-                            className={index > 0 ? "mt-4" : ""}
-                          >
-                            <TodoItem
-                              todo={todo}
-                              onUpdate={handleUpdateTodo}
-                              onDelete={onDeleteTodoAttempt}
-                            />
-                          </li>
-                        )}
-                      </Draggable>
-                    ))}
+                        <Draggable
+                          key={todo.id.toString()}
+                          draggableId={todo.id.toString()}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <li
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              role="listitem"
+                              className={index > 0 ? "mt-4" : ""}
+                            >
+                              <TodoItem
+                                todo={todo}
+                                onUpdate={handleUpdateTodo}
+                                onDelete={onDeleteTodoAttempt}
+                              />
+                            </li>
+                          )}
+                        </Draggable>
+                      ))}
                   {provided.placeholder}
                 </ul>
               )}
@@ -147,36 +154,36 @@ const TodoList: React.FC = () => {
                 >
                   {loading
                     ? Array.from({ length: 3 }).map((_, index) => (
-                      <li
-                        key={`skeleton-${index}`}
-                        className={index > 0 ? "mt-4" : ""}
-                      >
-                        <TodoItemSkeleton />
-                      </li>
-                    ))
+                        <li
+                          key={`skeleton-${index}`}
+                          className={index > 0 ? "mt-4" : ""}
+                        >
+                          <TodoItemSkeleton />
+                        </li>
+                      ))
                     : completedTodos.map((todo, index) => (
-                      <Draggable
-                        key={todo.id.toString()}
-                        draggableId={todo.id.toString()}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <li
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            role="listitem"
-                            className={index > 0 ? "mt-4" : ""}
-                          >
-                            <TodoItem
-                              todo={todo}
-                              onUpdate={handleUpdateTodo}
-                              onDelete={onDeleteTodoAttempt}
-                            />
-                          </li>
-                        )}
-                      </Draggable>
-                    ))}
+                        <Draggable
+                          key={todo.id.toString()}
+                          draggableId={todo.id.toString()}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <li
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              role="listitem"
+                              className={index > 0 ? "mt-4" : ""}
+                            >
+                              <TodoItem
+                                todo={todo}
+                                onUpdate={handleUpdateTodo}
+                                onDelete={onDeleteTodoAttempt}
+                              />
+                            </li>
+                          )}
+                        </Draggable>
+                      ))}
                   {provided.placeholder}
                 </ul>
               )}
@@ -193,14 +200,22 @@ const TodoList: React.FC = () => {
         </div>
       </div>
       <Modal
-        open={!!todoToDelete}
+        open={!!targetTodoId}
         onClose={onCancelTodoDelete}
         title="Confirm Deletion"
       >
         <p>Are you sure you want to delete this todo?</p>
         <div className="flex justify-center mt-4 gap-4">
-          <Button label="Cancel" onClick={onCancelTodoDelete} className="mr-2" />
-          <Button label="Delete" onClick={handleDeleteTodo} className="bg-red-500!" />
+          <Button
+            label="Cancel"
+            onClick={onCancelTodoDelete}
+            className="mr-2"
+          />
+          <Button
+            label="Delete"
+            onClick={handleDeleteTodo}
+            className="bg-red-500!"
+          />
         </div>
       </Modal>
     </DragDropContext>

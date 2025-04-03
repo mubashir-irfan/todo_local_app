@@ -6,17 +6,18 @@ Welcome to the **Simple Local Todo Demo** repository! This project is a simple y
 
 ## Features
 
-**Add Todo**: 
+**Add Todo**:
+
 - Click on the 'Add Todo' button in header
 - Enter a unique name
 - Enter a description
 - Click on 'Add Todo'
 
-**Edit Todo**: 
+**Edit Todo**:
+
 - Click on the 'pencil' edit icon
 - Edit the name or description
 - Press on 'tick' icon for saving or 'cross' for discarding changes
-
 
 ## Tech Stack
 
@@ -27,7 +28,6 @@ Welcome to the **Simple Local Todo Demo** repository! This project is a simple y
   - [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework. library for React
 - **Testing**:
   - [Jest](https://jestjs.io/): A delightful JavaScript testing framework.
-
 
 ## Getting Started
 
@@ -55,7 +55,6 @@ Run `npm install` or `yarn install`
 
 ### Running the Application
 
-
 2. **Starting the Frontend Application**
 
 Run `npm run dev or yarn dev`
@@ -68,7 +67,6 @@ The application follows a modular, feature-isolation structure. The structure en
 - Global entities are present directly inside src (e.g src/types)
 - Feature level entities (components,types,hooks) have their isolated structure inside src/app/[feature])
 - Shared entities are present inside src/shared
-
 
 ## Available scripts
 

@@ -6,7 +6,7 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 
 interface TodoItemProps {
   todo: Todo;
-  onUpdate: (updatedTodo: Todo) => void;
+  onUpdate: (updatedTodo: Todo) => string | null;
   onDelete: (id: number) => void;
 }
 
@@ -15,6 +15,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
   const [editedText, setEditedText] = useState(todo.name);
   const [editedDescription, setEditedDescription] = useState(todo.description);
   const [isCompleted, setIsCompleted] = useState(todo.completed);
+  const [updateError, setUpdateErrorText] = useState<string>();
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newCompleted = event.target.checked;
@@ -31,7 +32,19 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
   };
 
   const handleSave = () => {
-    onUpdate({ ...todo, name: editedText, description: editedDescription });
+    if (!editedText) return setUpdateErrorText("Name can not be empty");
+    if (!editedDescription)
+      return setUpdateErrorText("Description can not be empty");
+
+    const status = onUpdate({
+      ...todo,
+      name: editedText,
+      description: editedDescription,
+    });
+
+    if (status) {
+      return setUpdateErrorText(status);
+    }
     setIsEditing(false);
   };
 
@@ -39,6 +52,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
     setEditedText(todo.name);
     setEditedDescription(todo.description);
     setIsEditing(false);
+    setUpdateErrorText("");
   };
 
   const handleDelete = () => {
@@ -101,24 +115,31 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
         <div className="text-right text-xs text-gray-500 dark:text-gray-400">
           Created at: {formatDate(new Date(todo.id))}
         </div>
+        <div>
+          {updateError && (
+            <p className="text-center text-sm text-red-700">{updateError}</p>
+          )}
+        </div>
       </div>
 
       {isEditing ? (
-        <div className="flex justify-center my-auto">
-          <IconButton
-            aria-label="save"
-            onClick={handleSave}
-            sx={{ color: "black" }}
-          >
-            <MdCheck size={20} />
-          </IconButton>
-          <IconButton
-            aria-label="cancel"
-            onClick={handleCancel}
-            sx={{ color: "black" }}
-          >
-            <MdClose size={20} />
-          </IconButton>
+        <div className="flex flex-col justify-between gap-2">
+          <div className="flex justify-center my-auto">
+            <IconButton
+              aria-label="save"
+              onClick={handleSave}
+              sx={{ color: "black" }}
+            >
+              <MdCheck size={20} />
+            </IconButton>
+            <IconButton
+              aria-label="cancel"
+              onClick={handleCancel}
+              sx={{ color: "black" }}
+            >
+              <MdClose size={20} />
+            </IconButton>
+          </div>
         </div>
       ) : (
         <>
