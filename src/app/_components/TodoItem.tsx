@@ -42,10 +42,9 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
 
   return (
     <div
-      className={`p-4 border border-gray-300 rounded-md shadow-md mb-2 ${
-        todo.completed ? "bg-gray-100" : "bg-white"
-      }`}
-      data-testid={`todo-item-${todo.id}`}
+      className={`p-4 border border-gray-300 rounded-md shadow-md mb-2 ${todo.completed ? "bg-gray-100" : "bg-white"
+        }`}
+      data-testid={`todo-item-${todo.name}`}
     >
       <div className="flex flex-col">
         <div>
@@ -60,9 +59,8 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
             />
           ) : (
             <span
-              className={`text-lg ${
-                todo.completed ? "line-through text-gray-500" : "text-black"
-              }`}
+              className={`text-lg ${todo.completed ? "line-through text-gray-500" : "text-black"
+                }`}
             >
               {todo.name}
             </span>
@@ -85,7 +83,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
           <button
             onClick={handleCompleteToggle}
             aria-label={todo.completed ? "Mark incomplete" : "Mark complete"}
-            data-testid={`complete-toggle-${todo.id}`}
+            data-testid={`complete-toggle-${todo.name}`}
           >
             {todo.completed ? (
               <FaCheckSquare size={20} />
@@ -99,7 +97,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
                 onClick={handleSaveClick}
                 className="text-black"
                 aria-label="Save changes"
-                data-testid={`save-edit-${todo.id}`}
+                data-testid={`save-edit-${todo.name}`}
               >
                 <FaCheck size={20} />
               </button>
@@ -107,7 +105,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
                 onClick={handleCancelClick}
                 className="text-black"
                 aria-label="Cancel changes"
-                data-testid={`cancel-edit-${todo.id}`}
+                data-testid={`cancel-edit-${todo.name}`}
               >
                 <FaTimes size={20} />
               </button>
@@ -117,17 +115,17 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
               onClick={handleEditClick}
               className="text-black"
               aria-label="Edit todo"
-              data-testid={`edit-button-${todo.id}`}
+              data-testid={`edit-button-${todo.name}`}
             >
               <FaEdit size={20} />
             </button>
           )}
 
           <button
-            onClick={() => onDelete(todo.id)}
+            onClick={() => onDelete(todo.name)}
             className="text-black"
             aria-label="Delete todo"
-            data-testid={`delete-button-${todo.id}`}
+            data-testid={`delete-button-${todo.name}`}
           >
             Delete
           </button>
