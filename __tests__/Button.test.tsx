@@ -1,7 +1,6 @@
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
 import Button from "@/shared/components/Button";
 import "@testing-library/jest-dom";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 describe("Button Component", () => {
   it("renders with the correct label", () => {
@@ -14,7 +13,7 @@ describe("Button Component", () => {
   it("applies the default variant when not specified", () => {
     render(<Button label="Default Variant" />);
     const button = screen.getByRole("button", { name: /default variant/i });
-    expect(button).toHaveClass("MuiButton-contained"); // MUI adds this class for contained buttons
+    expect(button).toHaveClass("MuiButton-contained");
   });
 
   it("renders with different variants", () => {

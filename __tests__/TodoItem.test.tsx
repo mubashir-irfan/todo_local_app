@@ -1,8 +1,7 @@
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
 import TodoItem from "@/app/_components/TodoItem";
 import { Todo } from "@/types";
 import "@testing-library/jest-dom";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 describe("TodoItem Component", () => {
   const mockTodo: Todo = {
@@ -62,11 +61,10 @@ describe("TodoItem Component", () => {
 
     fireEvent.click(screen.getByLabelText("edit"));
 
-    // Expect multiple textboxes (for name and description)
     const textBoxes = screen.getAllByRole("textbox");
-    expect(textBoxes.length).toBe(2); // Name and Description fields should appear
-    expect(textBoxes[0]).toHaveValue("Sample Todo"); // Name input
-    expect(textBoxes[1]).toHaveValue("This is a test todo item"); // Description input
+    expect(textBoxes.length).toBe(2);
+    expect(textBoxes[0]).toHaveValue("Sample Todo");
+    expect(textBoxes[1]).toHaveValue("This is a test todo item");
   });
 
   it("saves the edited todo", () => {
@@ -80,7 +78,6 @@ describe("TodoItem Component", () => {
 
     fireEvent.click(screen.getByLabelText("edit"));
 
-    // Select the first textbox (assumed to be the todo name)
     const textBoxes = screen.getAllByRole("textbox");
     fireEvent.change(textBoxes[0], { target: { value: "Updated Todo" } });
 
@@ -102,13 +99,11 @@ describe("TodoItem Component", () => {
 
     fireEvent.click(screen.getByLabelText("edit"));
 
-    // Get all textboxes (first is name, second is description)
     const textBoxes = screen.getAllByRole("textbox");
     fireEvent.change(textBoxes[0], { target: { value: "New Value" } });
 
     fireEvent.click(screen.getByLabelText("cancel"));
 
-    // Ensure original todo name is displayed
     expect(screen.getByText(mockTodo.name)).toBeInTheDocument();
   });
 

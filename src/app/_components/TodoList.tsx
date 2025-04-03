@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Todo } from "@/types";
 import { TodoItem } from ".";
 import { useTodoStore } from "@/lib/store/useTodoStore";
@@ -9,22 +9,20 @@ import {
   Droppable,
   Draggable,
   DropResult,
-} from "@hello-pangea/dnd"; // Updated import
+} from "@hello-pangea/dnd";
 
 const TodoList: React.FC = () => {
   const { todos, updateTodo, deleteTodo, setTodos } = useTodoStore();
   const [incompleteTodos, setIncompleteTodos] = useState<Todo[]>([]);
   const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
+  const todosRef = useRef(todos); // Use a ref to store todos
 
   useEffect(() => {
-    const storedTodos = todos;
-    setTodos(storedTodos);
-  }, [setTodos, todos]);
-
-  useEffect(() => {
+    todosRef.current = todos;
     setIncompleteTodos(todos.filter((todo) => !todo.completed));
     setCompletedTodos(todos.filter((todo) => todo.completed));
-  }, [todos]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleUpdateTodo = (updatedTodo: Todo) => {
     updateTodo(updatedTodo);

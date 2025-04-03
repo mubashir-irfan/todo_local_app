@@ -1,7 +1,6 @@
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
 import Modal from "@/shared/components/Modal";
 import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
 
 describe("Modal Component", () => {
   it("renders correctly when open", () => {
