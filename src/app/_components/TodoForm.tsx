@@ -15,7 +15,6 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, onClose }) => {
   const [descriptionError, setDescriptionError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log("handle submit", text, description);
     e.preventDefault();
     setTextError(null);
     setDescriptionError(null);
@@ -73,11 +72,11 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, onClose }) => {
           <p className="text-red-500 text-sm my-1">{descriptionError}</p>
         )}
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-center items-center">
         <Button
           label="Add Todo"
           type="submit"
-          onClick={() => {}}
+          onClick={() => { }}
           className="mx-auto"
         />
       </div>

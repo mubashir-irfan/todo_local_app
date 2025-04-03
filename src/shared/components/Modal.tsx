@@ -14,7 +14,6 @@ const Modal: React.FC<ModalProps> = ({ open, onClose, title, children }) => {
       open={open}
       onClose={onClose}
       aria-labelledby="modal-title"
-      className="bg-white dark:bg-gray-800 text-black dark:text-white"
     >
       <DialogTitle id="modal-title" className="text-center">
         {title}

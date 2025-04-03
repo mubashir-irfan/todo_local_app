@@ -1,136 +1,119 @@
-import React, { useState } from "react";
-import { Todo } from "@/types";
-import {
-  FaEdit,
-  FaCheckSquare,
-  FaSquare,
-  FaCheck,
-  FaTimes,
-} from "react-icons/fa";
+import React, { useState } from 'react';
+import { Todo } from '@/types';
+import { Checkbox, IconButton, TextField } from '@mui/material';
+import { MdOutlineEdit, MdCheck, MdClose } from 'react-icons/md';
+import { RiDeleteBin5Fill } from 'react-icons/ri';
 
 interface TodoItemProps {
   todo: Todo;
   onUpdate: (updatedTodo: Todo) => void;
-  onDelete: (id: string) => void;
+  onDelete: (id: number) => void;
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(todo.name);
-  const [editedDescription, setEditedDescription] = useState(
-    todo.description || "",
-  ); // Handle optional description
+  const [editedDescription, setEditedDescription] = useState(todo.description);
+  const [isCompleted, setIsCompleted] = useState(todo.completed);
 
-  const handleCompleteToggle = () => {
-    onUpdate({ ...todo, completed: !todo.completed });
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newCompleted = event.target.checked;
+    setIsCompleted(newCompleted);
+    const updatedTodo = { ...todo, completed: newCompleted, completedAt: newCompleted ? new Date() : null };
+    onUpdate(updatedTodo);
   };
 
-  const handleEditClick = () => {
+  const handleEdit = () => {
     setIsEditing(true);
   };
 
-  const handleSaveClick = () => {
+  const handleSave = () => {
     onUpdate({ ...todo, name: editedText, description: editedDescription });
     setIsEditing(false);
   };
 
-  const handleCancelClick = () => {
-    setIsEditing(false);
+  const handleCancel = () => {
     setEditedText(todo.name);
-    setEditedDescription(todo.description || "");
+    setEditedDescription(todo.description);
+    setIsEditing(false);
+  };
+
+  const handleDelete = () => {
+    onDelete(todo.id);
+  };
+
+  const formatDate = (date: Date | null): string => {
+    if (!date) return '';
+    return date.toLocaleString();
   };
 
   return (
-    <div
-      className={`p-4 border border-gray-300 rounded-md shadow-md mb-2 ${todo.completed ? "bg-gray-100" : "bg-white"
-        }`}
-      data-testid={`todo-item-${todo.name}`}
-    >
-      <div className="flex flex-col">
-        <div>
-          {isEditing ? (
-            <input
-              type="text"
+    <div className="flex items-start space-x-2 p-2 border rounded-lg shadow-sm border-gray-200 dark:border-gray-700">
+      <Checkbox
+        checked={isCompleted}
+        onChange={handleCheckboxChange}
+        inputProps={{ 'aria-label': 'completed' }}
+        sx={{
+          color: 'black',
+          '& .MuiSvgIcon-root': {
+            color: 'black',
+          },
+        }}
+      />
+      <div className="flex-grow flex flex-col">
+        {isEditing ? (
+          <div className='flex flex-col gap-3'>
+            <TextField
               value={editedText}
               onChange={(e) => setEditedText(e.target.value)}
-              className="border border-gray-300 p-2 rounded-md w-full mb-1"
-              aria-label={`Edit todo item ${todo.name}`}
-              placeholder="Title"
+              variant="outlined"
+              size="small"
             />
-          ) : (
-            <span
-              className={`text-lg ${todo.completed ? "line-through text-gray-500" : "text-black"
-                }`}
-            >
-              {todo.name}
-            </span>
-          )}
-        </div>
-        <div>
-          {isEditing ? (
-            <textarea
+            <TextField
               value={editedDescription}
               onChange={(e) => setEditedDescription(e.target.value)}
-              className="border border-gray-300 p-2 rounded-md w-full mb-2"
-              aria-label={`Edit todo description ${todo.description}`}
-              placeholder="Description"
+              label="Description"
+              variant="outlined"
+              size="small"
+              multiline
+              className="mt-2"
             />
-          ) : (
-            <span className="text-sm text-gray-600">{todo.description}</span>
-          )}
-        </div>
-        <div className="flex items-center space-x-2 self-end">
-          <button
-            onClick={handleCompleteToggle}
-            aria-label={todo.completed ? "Mark incomplete" : "Mark complete"}
-            data-testid={`complete-toggle-${todo.name}`}
-          >
-            {todo.completed ? (
-              <FaCheckSquare size={20} />
-            ) : (
-              <FaSquare size={20} />
+          </div>
+        ) : (
+          <>
+            <span className={`flex-grow ${isCompleted ? 'line-through text-gray-500 dark:text-gray-400' : ''}`}>
+              {todo.name}
+            </span>
+            {todo.description && (
+              <p className={`text-sm text-gray-600 dark:text-gray-400 ${isCompleted ? 'line-through text-gray-600 dark:text-gray-400' : ''}`}>{todo.description}</p>
             )}
-          </button>
-          {isEditing ? (
-            <>
-              <button
-                onClick={handleSaveClick}
-                className="text-black"
-                aria-label="Save changes"
-                data-testid={`save-edit-${todo.name}`}
-              >
-                <FaCheck size={20} />
-              </button>
-              <button
-                onClick={handleCancelClick}
-                className="text-black"
-                aria-label="Cancel changes"
-                data-testid={`cancel-edit-${todo.name}`}
-              >
-                <FaTimes size={20} />
-              </button>
-            </>
-          ) : (
-            <button
-              onClick={handleEditClick}
-              className="text-black"
-              aria-label="Edit todo"
-              data-testid={`edit-button-${todo.name}`}
-            >
-              <FaEdit size={20} />
-            </button>
-          )}
-
-          <button
-            onClick={() => onDelete(todo.name)}
-            className="text-black"
-            aria-label="Delete todo"
-            data-testid={`delete-button-${todo.name}`}
-          >
-            Delete
-          </button>
+          </>
+        )}
+        <div className="text-right text-xs text-gray-500 dark:text-gray-400">
+          Created at: {formatDate(new Date(todo.id))}
         </div>
       </div>
+
+      {isEditing ? (
+        <div className='flex justify-center my-auto'>
+          <IconButton aria-label="save" onClick={handleSave} sx={{ color: 'black' }}>
+            <MdCheck size={20} />
+          </IconButton>
+          <IconButton aria-label="cancel" onClick={handleCancel} sx={{ color: 'black' }}>
+            <MdClose size={20} />
+          </IconButton>
+        </div>
+      ) : (
+        <>
+          <IconButton aria-label="edit" onClick={handleEdit} sx={{ color: 'black' }}>
+            <MdOutlineEdit size={20} />
+          </IconButton>
+          <IconButton aria-label="delete" onClick={handleDelete} sx={{ color: 'black' }}>
+            <RiDeleteBin5Fill size={20} />
+          </IconButton>
+        </>
+      )}
+
     </div>
   );
 };

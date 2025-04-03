@@ -20,7 +20,7 @@ const TodoList: React.FC = () => {
     updateTodo(updatedTodo);
   };
 
-  const handleDeleteTodo = (id: string) => {
+  const handleDeleteTodo = (id: number) => {
     deleteTodo(id);
   };
 
@@ -36,8 +36,12 @@ const TodoList: React.FC = () => {
           </Typography>
           {incompleteTodos.length > 0 ? (
             <ul role="list">
-              {incompleteTodos.map((todo) => (
-                <li key={todo.name} role="listitem">
+              {incompleteTodos.map((todo, index) => (
+                <li
+                  key={todo.name}
+                  role="listitem"
+                  className={index > 0 ? "mt-4" : ""}
+                >
                   <TodoItem
                     todo={todo}
                     onUpdate={handleUpdateTodo}
@@ -46,6 +50,7 @@ const TodoList: React.FC = () => {
                 </li>
               ))}
             </ul>
+
           ) : (
             <Typography
               variant="body2"
@@ -64,8 +69,12 @@ const TodoList: React.FC = () => {
           </Typography>
           {completedTodos.length > 0 ? (
             <ul role="list">
-              {completedTodos.map((todo) => (
-                <li key={todo.name} role="listitem">
+              {completedTodos.map((todo, index) => (
+                <li
+                  key={todo.name}
+                  role="listitem"
+                  className={index > 0 ? "mt-4" : ""} // Add margin-top if not the first item
+                >
                   <TodoItem
                     todo={todo}
                     onUpdate={handleUpdateTodo}
