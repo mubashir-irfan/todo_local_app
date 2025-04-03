@@ -1,12 +1,12 @@
-'use client'
-import { Todo } from '@/types';
-import { TodoItem } from '.';
+"use client";
+import { Todo } from "@/types";
+import { TodoItem } from ".";
 
-import { useTodoStore } from '@/lib/store/useTodoStore';
+import { useTodoStore } from "@/lib/store/useTodoStore";
 
-import { Typography } from '@mui/material';
+import { Typography } from "@mui/material";
 
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 const TodoList: React.FC = () => {
   const { todos, updateTodo, deleteTodo, setTodos } = useTodoStore();
@@ -14,8 +14,7 @@ const TodoList: React.FC = () => {
   useEffect(() => {
     const storedTodos = todos;
     setTodos(storedTodos);
-  }, [setTodos]);
-
+  }, [setTodos, todos]);
 
   const handleUpdateTodo = (updatedTodo: Todo) => {
     updateTodo(updatedTodo);
@@ -25,15 +24,11 @@ const TodoList: React.FC = () => {
     deleteTodo(id);
   };
 
-
-
   const incompleteTodos = todos.filter((todo) => !todo.completed);
   const completedTodos = todos.filter((todo) => todo.completed);
 
   return (
     <div className="p-4">
-
-
       <div className="md:flex md:space-x-4">
         <section aria-label="Incomplete Tasks" className="md:w-1/2">
           <Typography variant="h6" component="h2" gutterBottom>
@@ -43,12 +38,19 @@ const TodoList: React.FC = () => {
             <ul role="list">
               {incompleteTodos.map((todo) => (
                 <li key={todo.name} role="listitem">
-                  <TodoItem todo={todo} onUpdate={handleUpdateTodo} onDelete={handleDeleteTodo} />
+                  <TodoItem
+                    todo={todo}
+                    onUpdate={handleUpdateTodo}
+                    onDelete={handleDeleteTodo}
+                  />
                 </li>
               ))}
             </ul>
           ) : (
-            <Typography variant="body2" className="text-gray-500 dark:text-gray-400">
+            <Typography
+              variant="body2"
+              className="text-gray-500 dark:text-gray-400"
+            >
               No incomplete tasks.
             </Typography>
           )}
@@ -64,12 +66,19 @@ const TodoList: React.FC = () => {
             <ul role="list">
               {completedTodos.map((todo) => (
                 <li key={todo.name} role="listitem">
-                  <TodoItem todo={todo} onUpdate={handleUpdateTodo} onDelete={handleDeleteTodo} />
+                  <TodoItem
+                    todo={todo}
+                    onUpdate={handleUpdateTodo}
+                    onDelete={handleDeleteTodo}
+                  />
                 </li>
               ))}
             </ul>
           ) : (
-            <Typography variant="body2" className="text-gray-500 dark:text-gray-400">
+            <Typography
+              variant="body2"
+              className="text-gray-500 dark:text-gray-400"
+            >
               No completed tasks.
             </Typography>
           )}

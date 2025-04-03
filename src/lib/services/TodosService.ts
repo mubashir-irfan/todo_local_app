@@ -1,6 +1,6 @@
-import { Todo } from '@/types';
-import { LocalStorage } from '.';
-import { TODO_STORAGE_KEY } from '@/shared/constants';
+import { Todo } from "@/types";
+import { LocalStorage } from ".";
+import { TODO_STORAGE_KEY } from "@/shared/constants";
 
 const TodosService = {
   getTodos: (): Todo[] => {

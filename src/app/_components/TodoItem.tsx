@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
-import { Todo } from '@/types';
-import { FaEdit, FaCheckSquare, FaSquare, FaCheck, FaTimes } from 'react-icons/fa';
+import React, { useState } from "react";
+import { Todo } from "@/types";
+import {
+  FaEdit,
+  FaCheckSquare,
+  FaSquare,
+  FaCheck,
+  FaTimes,
+} from "react-icons/fa";
 
 interface TodoItemProps {
   todo: Todo;
@@ -11,7 +17,9 @@ interface TodoItemProps {
 const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(todo.name);
-  const [editedDescription, setEditedDescription] = useState(todo.description || ''); // Handle optional description
+  const [editedDescription, setEditedDescription] = useState(
+    todo.description || "",
+  ); // Handle optional description
 
   const handleCompleteToggle = () => {
     onUpdate({ ...todo, completed: !todo.completed });
@@ -29,13 +37,14 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
   const handleCancelClick = () => {
     setIsEditing(false);
     setEditedText(todo.name);
-    setEditedDescription(todo.description || '');
+    setEditedDescription(todo.description || "");
   };
 
   return (
     <div
-      className={`p-4 border border-gray-300 rounded-md shadow-md mb-2 ${todo.completed ? 'bg-gray-100' : 'bg-white'
-        }`}
+      className={`p-4 border border-gray-300 rounded-md shadow-md mb-2 ${
+        todo.completed ? "bg-gray-100" : "bg-white"
+      }`}
       data-testid={`todo-item-${todo.id}`}
     >
       <div className="flex flex-col">
@@ -51,8 +60,9 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
             />
           ) : (
             <span
-              className={`text-lg ${todo.completed ? 'line-through text-gray-500' : 'text-black'
-                }`}
+              className={`text-lg ${
+                todo.completed ? "line-through text-gray-500" : "text-black"
+              }`}
             >
               {todo.name}
             </span>
@@ -68,18 +78,20 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
               placeholder="Description"
             />
           ) : (
-            <span className="text-sm text-gray-600">
-              {todo.description}
-            </span>
+            <span className="text-sm text-gray-600">{todo.description}</span>
           )}
         </div>
         <div className="flex items-center space-x-2 self-end">
           <button
             onClick={handleCompleteToggle}
-            aria-label={todo.completed ? 'Mark incomplete' : 'Mark complete'}
+            aria-label={todo.completed ? "Mark incomplete" : "Mark complete"}
             data-testid={`complete-toggle-${todo.id}`}
           >
-            {todo.completed ? <FaCheckSquare size={20} /> : <FaSquare size={20} />}
+            {todo.completed ? (
+              <FaCheckSquare size={20} />
+            ) : (
+              <FaSquare size={20} />
+            )}
           </button>
           {isEditing ? (
             <>

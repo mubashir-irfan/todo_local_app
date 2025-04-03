@@ -1,12 +1,9 @@
-'use client';
-import { TodoList } from './_components';
+"use client";
+import { TodoList } from "./_components";
 import dynamic from "next/dynamic";
 
 function Home() {
-
-  return (
-    <TodoList />
-  );
+  return <TodoList />;
 }
 
 export default dynamic(() => Promise.resolve(Home), {

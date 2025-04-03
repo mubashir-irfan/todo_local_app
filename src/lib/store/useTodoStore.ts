@@ -1,7 +1,7 @@
 // useTodoStore.ts
-import { create } from 'zustand';
-import { Todo } from '@/types';
-import { TodosService } from '@/lib/services';
+import { create } from "zustand";
+import { Todo } from "@/types";
+import { TodosService } from "@/lib/services";
 
 interface TodoState {
   todos: Todo[];
@@ -18,17 +18,17 @@ export const useTodoStore = create<TodoState>((set) => ({
     set((state) => {
       const newTodos = [...state.todos, todo];
       TodosService.updateTodos(newTodos);
-      console.group('add todo group')
-      console.log('add todo', todo)
-      console.log('new todos', newTodos)
-      console.groupEnd()
+      console.group("add todo group");
+      console.log("add todo", todo);
+      console.log("new todos", newTodos);
+      console.groupEnd();
       return { todos: newTodos };
     }),
 
   updateTodo: (updatedTodo) =>
     set((state) => {
       const newTodos = state.todos.map((todo) =>
-        todo.name === updatedTodo.name ? updatedTodo : todo
+        todo.name === updatedTodo.name ? updatedTodo : todo,
       );
       TodosService.updateTodos(newTodos);
       return { todos: newTodos };
@@ -36,7 +36,7 @@ export const useTodoStore = create<TodoState>((set) => ({
 
   deleteTodo: (name) =>
     set((state) => {
-      const newTodos = state.todos.filter((todo) => todo.name !== name)
+      const newTodos = state.todos.filter((todo) => todo.name !== name);
       TodosService.updateTodos(newTodos);
       return { todos: newTodos };
     }),
