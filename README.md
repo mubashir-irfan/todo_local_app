@@ -19,6 +19,11 @@ Welcome to the **Simple Local Todo Demo** repository! This project is a simple y
 - Edit the name or description
 - Press on 'tick' icon for saving or 'cross' for discarding changes
 
+**Delete Todo**:
+
+- Click on the 'bin' delete icon
+- Confirm deletion
+
 ## Tech Stack
 
 - **Frontend**:
@@ -26,6 +31,7 @@ Welcome to the **Simple Local Todo Demo** repository! This project is a simple y
   - [React](https://reactjs.org/): A JavaScript library for building user interfaces.
   - [TypeScript](https://www.typescriptlang.org/): A typed superset of JavaScript.
   - [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework. library for React
+  - [Material UI](https://mui.com/material-ui/?srsltid=AfmBOop1Ekg79vjY_d4TWslFOsarROzgATT066mG8-JFeAd_VzEp6LOu)
 - **Testing**:
   - [Jest](https://jestjs.io/): A delightful JavaScript testing framework.
 
