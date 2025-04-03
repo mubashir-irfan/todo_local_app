@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import TodoItem from "@/app/_components/TodoItem";
-import { Todo } from "@/types"
+import { Todo } from "@/types";
 import "@testing-library/jest-dom";
 
 describe("TodoItem Component", () => {
@@ -21,7 +21,11 @@ describe("TodoItem Component", () => {
 
   it("renders the todo item correctly", () => {
     render(
-      <TodoItem todo={mockTodo} onUpdate={mockOnUpdate} onDelete={mockOnDelete} />
+      <TodoItem
+        todo={mockTodo}
+        onUpdate={mockOnUpdate}
+        onDelete={mockOnDelete}
+      />,
     );
 
     expect(screen.getByText("Sample Todo")).toBeInTheDocument();
@@ -31,18 +35,30 @@ describe("TodoItem Component", () => {
 
   it("calls onUpdate when checkbox is clicked", () => {
     render(
-      <TodoItem todo={mockTodo} onUpdate={mockOnUpdate} onDelete={mockOnDelete} />
+      <TodoItem
+        todo={mockTodo}
+        onUpdate={mockOnUpdate}
+        onDelete={mockOnDelete}
+      />,
     );
 
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
     expect(mockOnUpdate).toHaveBeenCalledTimes(1);
-    expect(mockOnUpdate).toHaveBeenCalledWith(expect.objectContaining({ completed: true }));
+    expect(mockOnUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({ completed: true }),
+    );
   });
 
   it("enters edit mode when edit button is clicked", () => {
-    render(<TodoItem todo={mockTodo} onUpdate={mockOnUpdate} onDelete={mockOnDelete} />);
+    render(
+      <TodoItem
+        todo={mockTodo}
+        onUpdate={mockOnUpdate}
+        onDelete={mockOnDelete}
+      />,
+    );
 
     fireEvent.click(screen.getByLabelText("edit"));
 
@@ -54,7 +70,13 @@ describe("TodoItem Component", () => {
   });
 
   it("saves the edited todo", () => {
-    render(<TodoItem todo={mockTodo} onUpdate={mockOnUpdate} onDelete={mockOnDelete} />);
+    render(
+      <TodoItem
+        todo={mockTodo}
+        onUpdate={mockOnUpdate}
+        onDelete={mockOnDelete}
+      />,
+    );
 
     fireEvent.click(screen.getByLabelText("edit"));
 
@@ -65,12 +87,18 @@ describe("TodoItem Component", () => {
     fireEvent.click(screen.getByLabelText("save"));
 
     expect(mockOnUpdate).toHaveBeenCalledWith(
-      expect.objectContaining({ name: "Updated Todo" })
+      expect.objectContaining({ name: "Updated Todo" }),
     );
   });
 
   it("cancels editing and restores original values", () => {
-    render(<TodoItem todo={mockTodo} onUpdate={mockOnUpdate} onDelete={mockOnDelete} />);
+    render(
+      <TodoItem
+        todo={mockTodo}
+        onUpdate={mockOnUpdate}
+        onDelete={mockOnDelete}
+      />,
+    );
 
     fireEvent.click(screen.getByLabelText("edit"));
 
@@ -86,7 +114,11 @@ describe("TodoItem Component", () => {
 
   it("calls onDelete when delete button is clicked", () => {
     render(
-      <TodoItem todo={mockTodo} onUpdate={mockOnUpdate} onDelete={mockOnDelete} />
+      <TodoItem
+        todo={mockTodo}
+        onUpdate={mockOnUpdate}
+        onDelete={mockOnDelete}
+      />,
     );
 
     fireEvent.click(screen.getByLabelText("delete"));

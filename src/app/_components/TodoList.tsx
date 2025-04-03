@@ -4,7 +4,12 @@ import { Todo } from "@/types";
 import { TodoItem } from ".";
 import { useTodoStore } from "@/lib/store/useTodoStore";
 import { Typography } from "@mui/material";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"; // Updated import
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "@hello-pangea/dnd"; // Updated import
 
 const TodoList: React.FC = () => {
   const { todos, updateTodo, deleteTodo, setTodos } = useTodoStore();
@@ -29,7 +34,7 @@ const TodoList: React.FC = () => {
     deleteTodo(id);
   };
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
     }

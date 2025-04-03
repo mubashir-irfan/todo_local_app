@@ -21,11 +21,17 @@ describe("TodoForm Component", () => {
   it("updates the input fields correctly", () => {
     render(<TodoForm onAddTodo={mockOnAddTodo} onClose={mockOnClose} />);
 
-    const nameInput = screen.getByPlaceholderText("Todo Name") as HTMLInputElement;
-    const descriptionInput = screen.getByPlaceholderText("Todo Description") as HTMLTextAreaElement;
+    const nameInput = screen.getByPlaceholderText(
+      "Todo Name",
+    ) as HTMLInputElement;
+    const descriptionInput = screen.getByPlaceholderText(
+      "Todo Description",
+    ) as HTMLTextAreaElement;
 
     fireEvent.change(nameInput, { target: { value: "New Todo" } });
-    fireEvent.change(descriptionInput, { target: { value: "Todo Description" } });
+    fireEvent.change(descriptionInput, {
+      target: { value: "Todo Description" },
+    });
 
     expect(nameInput.value).toBe("New Todo");
     expect(descriptionInput.value).toBe("Todo Description");
@@ -37,7 +43,9 @@ describe("TodoForm Component", () => {
     fireEvent.click(screen.getByText("Add Todo"));
 
     expect(screen.getByText("Todo name is required")).toBeInTheDocument();
-    expect(screen.getByText("Todo description is required")).toBeInTheDocument();
+    expect(
+      screen.getByText("Todo description is required"),
+    ).toBeInTheDocument();
   });
 
   it("calls onAddTodo with correct data when form is submitted", () => {
@@ -47,7 +55,9 @@ describe("TodoForm Component", () => {
     const descriptionInput = screen.getByPlaceholderText("Todo Description");
 
     fireEvent.change(nameInput, { target: { value: "Sample Todo" } });
-    fireEvent.change(descriptionInput, { target: { value: "Sample Description" } });
+    fireEvent.change(descriptionInput, {
+      target: { value: "Sample Description" },
+    });
 
     fireEvent.click(screen.getByText("Add Todo"));
 
@@ -62,8 +72,12 @@ describe("TodoForm Component", () => {
 
     render(<TodoForm onAddTodo={mockOnAddTodo} onClose={mockOnClose} />);
 
-    fireEvent.change(screen.getByPlaceholderText("Todo Name"), { target: { value: "Duplicate Todo" } });
-    fireEvent.change(screen.getByPlaceholderText("Todo Description"), { target: { value: "Duplicate Description" } });
+    fireEvent.change(screen.getByPlaceholderText("Todo Name"), {
+      target: { value: "Duplicate Todo" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Todo Description"), {
+      target: { value: "Duplicate Description" },
+    });
 
     fireEvent.click(screen.getByText("Add Todo"));
 
@@ -76,8 +90,12 @@ describe("TodoForm Component", () => {
 
     render(<TodoForm onAddTodo={mockOnAddTodo} onClose={mockOnClose} />);
 
-    fireEvent.change(screen.getByPlaceholderText("Todo Name"), { target: { value: "New Todo" } });
-    fireEvent.change(screen.getByPlaceholderText("Todo Description"), { target: { value: "Description" } });
+    fireEvent.change(screen.getByPlaceholderText("Todo Name"), {
+      target: { value: "New Todo" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Todo Description"), {
+      target: { value: "Description" },
+    });
 
     fireEvent.click(screen.getByText("Add Todo"));
 

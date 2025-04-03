@@ -8,7 +8,7 @@ describe("Modal Component", () => {
     render(
       <Modal open={true} onClose={jest.fn()} title="Test Modal">
         <p>Modal Content</p>
-      </Modal>
+      </Modal>,
     );
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
@@ -20,7 +20,7 @@ describe("Modal Component", () => {
     render(
       <Modal open={false} onClose={jest.fn()} title="Hidden Modal">
         <p>Hidden Content</p>
-      </Modal>
+      </Modal>,
     );
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
@@ -31,7 +31,7 @@ describe("Modal Component", () => {
     render(
       <Modal open={true} onClose={jest.fn()} title="Custom Title">
         <p>Some Content</p>
-      </Modal>
+      </Modal>,
     );
 
     expect(screen.getByText("Custom Title")).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe("Modal Component", () => {
     render(
       <Modal open={true} onClose={jest.fn()} title="With Children">
         <p>Test Child Element</p>
-      </Modal>
+      </Modal>,
     );
 
     expect(screen.getByText("Test Child Element")).toBeInTheDocument();

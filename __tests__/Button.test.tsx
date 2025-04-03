@@ -6,7 +6,9 @@ import "@testing-library/jest-dom";
 describe("Button Component", () => {
   it("renders with the correct label", () => {
     render(<Button label="Click Me" />);
-    expect(screen.getByRole("button", { name: /click me/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /click me/i }),
+    ).toBeInTheDocument();
   });
 
   it("applies the default variant when not specified", () => {
@@ -17,10 +19,14 @@ describe("Button Component", () => {
 
   it("renders with different variants", () => {
     const { rerender } = render(<Button label="Outlined" variant="outlined" />);
-    expect(screen.getByRole("button", { name: /outlined/i })).toHaveClass("MuiButton-outlined");
+    expect(screen.getByRole("button", { name: /outlined/i })).toHaveClass(
+      "MuiButton-outlined",
+    );
 
     rerender(<Button label="Text" variant="text" />);
-    expect(screen.getByRole("button", { name: /text/i })).toHaveClass("MuiButton-text");
+    expect(screen.getByRole("button", { name: /text/i })).toHaveClass(
+      "MuiButton-text",
+    );
   });
 
   it("calls the onClick handler when clicked", () => {
