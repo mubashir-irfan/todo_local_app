@@ -1,4 +1,4 @@
 export { default as Button } from "./Button";
 export { default as Modal } from "./Modal";
 export { default as ThemeToggle } from "./ThemeToggle";
-export { default as GlobalErrorBoundary } from './GlobalErrorBoundary'
+export { default as GlobalErrorBoundary } from "./GlobalErrorBoundary";

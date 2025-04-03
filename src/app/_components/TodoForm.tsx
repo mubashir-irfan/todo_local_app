@@ -76,7 +76,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, onClose }) => {
         <Button
           label="Add Todo"
           type="submit"
-          onClick={() => { }}
+          onClick={() => {}}
           className="mx-auto"
         />
       </div>

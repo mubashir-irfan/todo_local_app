@@ -10,11 +10,7 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ open, onClose, title, children }) => {
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      aria-labelledby="modal-title"
-    >
+    <Dialog open={open} onClose={onClose} aria-labelledby="modal-title">
       <DialogTitle id="modal-title" className="text-center">
         {title}
       </DialogTitle>

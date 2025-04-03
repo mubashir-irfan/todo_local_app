@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Todo } from '@/types';
-import { Checkbox, IconButton, TextField } from '@mui/material';
-import { MdOutlineEdit, MdCheck, MdClose } from 'react-icons/md';
-import { RiDeleteBin5Fill } from 'react-icons/ri';
+import React, { useState } from "react";
+import { Todo } from "@/types";
+import { Checkbox, IconButton, TextField } from "@mui/material";
+import { MdOutlineEdit, MdCheck, MdClose } from "react-icons/md";
+import { RiDeleteBin5Fill } from "react-icons/ri";
 
 interface TodoItemProps {
   todo: Todo;
@@ -19,7 +19,10 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newCompleted = event.target.checked;
     setIsCompleted(newCompleted);
-    const updatedTodo = { ...todo, completed: newCompleted, completedAt: newCompleted ? new Date() : null };
+    const updatedTodo = {
+      ...todo,
+      completed: newCompleted,
+    };
     onUpdate(updatedTodo);
   };
 
@@ -43,7 +46,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
   };
 
   const formatDate = (date: Date | null): string => {
-    if (!date) return '';
+    if (!date) return "";
     return date.toLocaleString();
   };
 
@@ -52,17 +55,17 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
       <Checkbox
         checked={isCompleted}
         onChange={handleCheckboxChange}
-        inputProps={{ 'aria-label': 'completed' }}
+        inputProps={{ "aria-label": "completed" }}
         sx={{
-          color: 'black',
-          '& .MuiSvgIcon-root': {
-            color: 'black',
+          color: "black",
+          "& .MuiSvgIcon-root": {
+            color: "black",
           },
         }}
       />
       <div className="flex-grow flex flex-col">
         {isEditing ? (
-          <div className='flex flex-col gap-3'>
+          <div className="flex flex-col gap-3">
             <TextField
               value={editedText}
               onChange={(e) => setEditedText(e.target.value)}
@@ -81,11 +84,17 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
           </div>
         ) : (
           <>
-            <span className={`flex-grow ${isCompleted ? 'line-through text-gray-500 dark:text-gray-400' : ''}`}>
+            <span
+              className={`flex-grow ${isCompleted ? "line-through text-gray-500 dark:text-gray-400" : ""}`}
+            >
               {todo.name}
             </span>
             {todo.description && (
-              <p className={`text-sm text-gray-600 dark:text-gray-400 ${isCompleted ? 'line-through text-gray-600 dark:text-gray-400' : ''}`}>{todo.description}</p>
+              <p
+                className={`text-sm text-gray-600 dark:text-gray-400 ${isCompleted ? "line-through text-gray-600 dark:text-gray-400" : ""}`}
+              >
+                {todo.description}
+              </p>
             )}
           </>
         )}
@@ -95,25 +104,40 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate, onDelete }) => {
       </div>
 
       {isEditing ? (
-        <div className='flex justify-center my-auto'>
-          <IconButton aria-label="save" onClick={handleSave} sx={{ color: 'black' }}>
+        <div className="flex justify-center my-auto">
+          <IconButton
+            aria-label="save"
+            onClick={handleSave}
+            sx={{ color: "black" }}
+          >
             <MdCheck size={20} />
           </IconButton>
-          <IconButton aria-label="cancel" onClick={handleCancel} sx={{ color: 'black' }}>
+          <IconButton
+            aria-label="cancel"
+            onClick={handleCancel}
+            sx={{ color: "black" }}
+          >
             <MdClose size={20} />
           </IconButton>
         </div>
       ) : (
         <>
-          <IconButton aria-label="edit" onClick={handleEdit} sx={{ color: 'black' }}>
+          <IconButton
+            aria-label="edit"
+            onClick={handleEdit}
+            sx={{ color: "black" }}
+          >
             <MdOutlineEdit size={20} />
           </IconButton>
-          <IconButton aria-label="delete" onClick={handleDelete} sx={{ color: 'black' }}>
+          <IconButton
+            aria-label="delete"
+            onClick={handleDelete}
+            sx={{ color: "black" }}
+          >
             <RiDeleteBin5Fill size={20} />
           </IconButton>
         </>
       )}
-
     </div>
   );
 };

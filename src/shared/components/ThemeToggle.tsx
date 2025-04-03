@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
 import { useTheme as useNextTheme } from "next-themes";
-import { FaMoon, FaSun } from 'react-icons/fa';
-import { LocalStorage } from "@/lib/services";
+import React, { useEffect, useState } from "react";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useNextTheme();
@@ -14,11 +13,12 @@ const ThemeToggle: React.FC = () => {
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
-    localStorage.setItem('muiTheme', newTheme);
+    localStorage.setItem("muiTheme", newTheme);
   };
 
-  const storedTheme = mounted ? localStorage.getItem('muiTheme') : null;
-  const currentTheme = theme === "system" ? (mounted ? (storedTheme || 'light') : 'light') : theme;
+  const storedTheme = mounted ? localStorage.getItem("muiTheme") : null;
+  const currentTheme =
+    theme === "system" ? (mounted ? storedTheme || "light" : "light") : theme;
 
   return (
     <button
@@ -28,11 +28,7 @@ const ThemeToggle: React.FC = () => {
       aria-label="Toggle theme"
       onClick={toggleTheme}
     >
-      {currentTheme === 'dark' ? (
-        <FaSun size={20} />
-      ) : (
-        <FaMoon size={20} />
-      )}
+      {currentTheme === "dark" ? <FaSun size={20} /> : <FaMoon size={20} />}
     </button>
   );
 };
