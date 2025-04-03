@@ -7,8 +7,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { useMemo } from "react";
 
 import React from "react";
-import "./globals.css";
 import { Header } from "./_components";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,6 +54,9 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <title>Simple Todo App</title>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

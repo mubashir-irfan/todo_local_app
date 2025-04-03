@@ -49,7 +49,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo, onClose }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mb-4 min-w-[500px] flex flex-col gap-2"
+      className="mb-4 w-[30rem] max-w-full flex flex-col gap-2 max-h-full overflow-y-auto"
     >
       <div>
         <input

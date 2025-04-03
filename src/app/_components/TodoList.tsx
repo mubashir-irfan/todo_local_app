@@ -1,28 +1,33 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
-import { Todo } from "@/types";
-import { TodoItem } from ".";
 import { useTodoStore } from "@/lib/store/useTodoStore";
-import { Typography } from "@mui/material";
+import { TodoItemSkeleton } from "@/shared/components/Skeletons";
+import { Todo } from "@/types";
 import {
   DragDropContext,
-  Droppable,
   Draggable,
+  Droppable,
   DropResult,
 } from "@hello-pangea/dnd";
+import { Typography } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { TodoItem } from ".";
 
 const TodoList: React.FC = () => {
-  const { todos, updateTodo, deleteTodo, setTodos } = useTodoStore();
+  const { todos, updateTodo, deleteTodo } = useTodoStore();
   const [incompleteTodos, setIncompleteTodos] = useState<Todo[]>([]);
   const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
-  const todosRef = useRef(todos); // Use a ref to store todos
+  const [loading, setLoading] = useState(true);
+  const todosRef = useRef(todos);
 
   useEffect(() => {
+    setLoading(true);
     todosRef.current = todos;
-    setIncompleteTodos(todos.filter((todo) => !todo.completed));
-    setCompletedTodos(todos.filter((todo) => todo.completed));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const newIncompleteTodos = todos.filter((todo) => !todo.completed);
+    const newCompletedTodos = todos.filter((todo) => todo.completed);
+    setIncompleteTodos(newIncompleteTodos);
+    setCompletedTodos(newCompletedTodos);
+    setLoading(false);
+  }, [todos]);
 
   const handleUpdateTodo = (updatedTodo: Todo) => {
     updateTodo(updatedTodo);
@@ -52,9 +57,6 @@ const TodoList: React.FC = () => {
       } else {
         setCompletedTodos(items);
       }
-
-      const updatedTodos = [...incompleteTodos, ...completedTodos];
-      setTodos(updatedTodos);
     }
   };
 
@@ -73,34 +75,43 @@ const TodoList: React.FC = () => {
                   ref={provided.innerRef}
                   role="list"
                 >
-                  {incompleteTodos.map((todo, index) => (
-                    <Draggable
-                      key={todo.id.toString()}
-                      draggableId={todo.id.toString()}
-                      index={index}
-                    >
-                      {(provided) => (
+                  {loading
+                    ? Array.from({ length: 3 }).map((_, index) => (
                         <li
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          role="listitem"
+                          key={`skeleton-${index}`}
                           className={index > 0 ? "mt-4" : ""}
                         >
-                          <TodoItem
-                            todo={todo}
-                            onUpdate={handleUpdateTodo}
-                            onDelete={handleDeleteTodo}
-                          />
+                          <TodoItemSkeleton />
                         </li>
-                      )}
-                    </Draggable>
-                  ))}
+                      ))
+                    : incompleteTodos.map((todo, index) => (
+                        <Draggable
+                          key={todo.id.toString()}
+                          draggableId={todo.id.toString()}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <li
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              role="listitem"
+                              className={index > 0 ? "mt-4" : ""}
+                            >
+                              <TodoItem
+                                todo={todo}
+                                onUpdate={handleUpdateTodo}
+                                onDelete={handleDeleteTodo}
+                              />
+                            </li>
+                          )}
+                        </Draggable>
+                      ))}
                   {provided.placeholder}
                 </ul>
               )}
             </Droppable>
-            {incompleteTodos.length === 0 && (
+            {incompleteTodos.length === 0 && !loading && (
               <Typography
                 variant="body2"
                 className="text-gray-500 dark:text-gray-400"
@@ -123,34 +134,43 @@ const TodoList: React.FC = () => {
                   ref={provided.innerRef}
                   role="list"
                 >
-                  {completedTodos.map((todo, index) => (
-                    <Draggable
-                      key={todo.id.toString()}
-                      draggableId={todo.id.toString()}
-                      index={index}
-                    >
-                      {(provided) => (
+                  {loading
+                    ? Array.from({ length: 3 }).map((_, index) => (
                         <li
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          role="listitem"
+                          key={`skeleton-${index}`}
                           className={index > 0 ? "mt-4" : ""}
                         >
-                          <TodoItem
-                            todo={todo}
-                            onUpdate={handleUpdateTodo}
-                            onDelete={handleDeleteTodo}
-                          />
+                          <TodoItemSkeleton />
                         </li>
-                      )}
-                    </Draggable>
-                  ))}
+                      ))
+                    : completedTodos.map((todo, index) => (
+                        <Draggable
+                          key={todo.id.toString()}
+                          draggableId={todo.id.toString()}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <li
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              role="listitem"
+                              className={index > 0 ? "mt-4" : ""}
+                            >
+                              <TodoItem
+                                todo={todo}
+                                onUpdate={handleUpdateTodo}
+                                onDelete={handleDeleteTodo}
+                              />
+                            </li>
+                          )}
+                        </Draggable>
+                      ))}
                   {provided.placeholder}
                 </ul>
               )}
             </Droppable>
-            {completedTodos.length === 0 && (
+            {completedTodos.length === 0 && !loading && (
               <Typography
                 variant="body2"
                 className="text-gray-500 dark:text-gray-400"
